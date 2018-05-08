@@ -18,10 +18,10 @@ Inside the web application, customers may register and do their shopping from a 
 [ ]
 
 ## Installation
-- DOWNLOAD THE PROJECT
-- MOVE THE PROJECT FOLDER TO THE SERVER'S FOLDER
-- MAKE A DATABASE NAMED db_final_proj
-- IN THE TERMINAL:
+- Download the Project
+- Move the Project to the Server's Folder
+- Make a database named ```db_final_proj```
+- In the terminal (CMD):
     - Run ```composer install```
     - Run ```php artisan key:generate```
     - Run ```php artisan migrate```
