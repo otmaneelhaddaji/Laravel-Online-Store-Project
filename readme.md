@@ -25,7 +25,7 @@ Inside the web application, customers may register and do their shopping from a 
     - Run ```composer install```
     - Run ```php artisan key:generate```
     - Run ```php artisan migrate```
-- In the ```.env``` file change the ```DB_DATABASE``` field to ```db_final_proj```
+- In the ```.env``` set the value of the ```DB_DATABASE``` field to ```db_final_proj```
 - Insert the proper database credentials
 - In the terminal: Run ```php artisan serve```
 - Open the URL provided
