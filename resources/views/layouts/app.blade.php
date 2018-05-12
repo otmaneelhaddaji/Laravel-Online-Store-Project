@@ -58,14 +58,14 @@
                                 Register
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="registerDropdown">
-                                    <a class="dropdown-item" href="{{ route('register') }}">{{ __('User Registration') }}</a>
+                                    <a class="dropdown-item" href="{{ route('register') }}">{{ __('Buyer Registration') }}</a>
                                     <a class="dropdown-item" href="#">Store Registration</a>
                                 </div>
                             </li>
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->username }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">

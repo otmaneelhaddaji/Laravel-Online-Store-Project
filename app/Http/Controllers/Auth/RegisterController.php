@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\CustomerProfile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -52,8 +53,10 @@ class RegisterController extends Controller
 
         //validator for store profile
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
+            'email_address' => 'required|string|email|max:255|unique:customer_profiles',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -66,9 +69,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $customer_profile = new CustomerProfile();
+        $customer_profile->first_name = $data['first_name'];
+        $customer_profile->last_name = $data['last_name'];
+        $customer_profile->email_address = $data['email_address'];
+        $customer_profile->save();
+
+        $user = new User();
+        $user->username = $data['username'];
+        $user->password = Hash::make($data['password']);
+        $user->save();
+
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'username' => $data['username'],
+            'email_address' => $data['email_address'],
             'password' => Hash::make($data['password']),
         ]);
     }
