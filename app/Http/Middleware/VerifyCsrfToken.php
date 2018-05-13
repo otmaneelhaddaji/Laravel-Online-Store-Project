@@ -13,5 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        'http://10.0.2.2/FinalProject/public/customer',
     ];
 }

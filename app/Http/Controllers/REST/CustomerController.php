@@ -4,6 +4,8 @@ namespace App\Http\Controllers\REST;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Classes\CustomerAccount;
+use App\Classes\DatabaseHandler;
 
 class CustomerController extends Controller
 {
@@ -12,6 +14,7 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //
@@ -36,8 +39,18 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        return response(json_encode(array("status" => "store")),200);
+        $customer_account = new CustomerAccount();
+        $customer_account->setFirstName($request['first_name']);
+        $customer_account->setLastName($request['last_name']);
+        $customer_account->setUsername($request['username']);
+        $customer_account->setEmailAddress($request['email_address']);
+        $customer_account->setPassword($request['password']);
+        $customer_account->setConfPassword($request['confirm_password']);
+
+        $dbHandler = new DatabaseHandler();
+        $result = $dbHandler->addCustomerAccount($customer_account);
+
+        return json_encode($result);
     }
 
     /**
