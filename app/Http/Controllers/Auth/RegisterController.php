@@ -50,8 +50,6 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         //validator for customer profile
-
-        //validator for store profile
         return Validator::make($data, [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -78,11 +76,11 @@ class RegisterController extends Controller
         $user = new User();
         $user->username = $data['username'];
         $user->password = Hash::make($data['password']);
+        $user->profile_id = $customer_profile->id;
         $user->save();
 
         return User::create([
             'username' => $data['username'],
-            'email_address' => $data['email_address'],
             'password' => Hash::make($data['password']),
         ]);
     }
