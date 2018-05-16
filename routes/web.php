@@ -19,3 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/customer', 'REST\CustomerController');
+Route::post('/customer/authenticate', 'REST\CustomerController@getUserProfile');
