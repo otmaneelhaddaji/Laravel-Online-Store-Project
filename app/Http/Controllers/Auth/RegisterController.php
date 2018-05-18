@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\CustomerProfile;
+use App\ShopProfile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,13 +49,13 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        //validator for customer profile
         return Validator::make($data, [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
-            'email_address' => 'required|string|email|max:255|unique:customer_profiles',
+            'username' => 'required|string|max:12|unique:users',
+            'email_address' => 'required|string|email|max:191|unique:shop_profiles',
             'password' => 'required|string|min:6|confirmed',
+            'shop_name' => 'required|string|unique:shop_profiles',
+            'shop_address' => 'required|string',
+            'contact_number' => 'required|numeric|min:7'
         ]);
     }
 
@@ -67,21 +67,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $customer_profile = new CustomerProfile();
-        $customer_profile->first_name = $data['first_name'];
-        $customer_profile->last_name = $data['last_name'];
-        $customer_profile->email_address = $data['email_address'];
-        $customer_profile->save();
-
-        $user = new User();
-        $user->username = $data['username'];
-        $user->password = Hash::make($data['password']);
-        $user->profile_id = $customer_profile->id;
-        $user->save();
+        $new_shop = new App\ShopProfile;
+        $new_shop->shop_name = $data['shop_name'];
+        $new_shop->shop_address = $data['shop_address'];
+        $new_shop->contact_number = $data['contact_number'];
+        $new_shop->email_address = $data['email_address'];
+        $new_shop->save();
 
         return User::create([
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
+            'user_type' => '1',
+            'profile_id' => $new_shop->id
         ]);
     }
 }

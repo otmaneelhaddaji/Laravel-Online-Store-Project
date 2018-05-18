@@ -11,12 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('pages.welcome');
-    });
-
+// LARAVEL APP ROUTES
+Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('/customer', 'REST\CustomerController');
+// REST API ROUTES
 Route::post('/customer/authenticate', 'REST\CustomerController@getUserProfile');
+Route::resource('/customer', 'REST\CustomerController');

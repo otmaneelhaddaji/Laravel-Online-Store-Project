@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'password',
+        'username', 'password', 'user_type', 'profile_id'
     ];
 
     /**
@@ -27,7 +27,13 @@ class User extends Authenticatable
         'password',
     ];
 
+    public $timestamps = false;
+
     public function customer_profile(){
         return $this->hasOne('App\CustomerProfile');
+    }
+
+    public function shop_profile(){
+        return $this->hasOne('App\ShopProfile');
     }
 }
