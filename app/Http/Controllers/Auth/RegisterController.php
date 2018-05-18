@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\ShopProfile as NewShopProfile;
+use App\User as User;
+use App\ShopProfile as ShopProfile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -67,18 +67,29 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $new_shop = new NewShopProfile;
+        // create new shop profile
+        $new_shop = new ShopProfile;
         $new_shop->shop_name = $data['shop_name'];
         $new_shop->shop_address = $data['shop_address'];
         $new_shop->contact_number = $data['contact_number'];
         $new_shop->email_address = $data['email_address'];
         $new_shop->save();
+        
+        // get created id for reference
+        $new_shop_id = $new_shop->id;
 
-        return User::create([
-            'username' => $data['username'],
-            'password' => Hash::make($data['password']),
-            'user_type' => '1',
-            'profile_id' => $new_shop->id
-        ]);
+        // save user account
+        $new_account = new User;
+        $new_account->username = $data['username'];
+        $new_account->password = Hash::make($data['password']);
+        $new_account->user_type = '1';
+        $new_account->profile_id = $new_shop_id;
+        $new_account->save();
+
+        // save created id of user account to shop profiles
+        $new_shop = ShopProfile::find($new_shop_id);
+        $new_shop->user_id = $new_account->id;
+        $new_shop->save();
+        return $new_account;
     }
 }

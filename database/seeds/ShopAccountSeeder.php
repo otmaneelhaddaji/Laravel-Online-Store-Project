@@ -13,6 +13,7 @@ class ShopAccountSeeder extends Seeder
      */
     public function run()
     {
+        // create new shop profile
         $seed_shop = new App\ShopProfile;
         $seed_shop->shop_name = 'Concept Store';
         $seed_shop->shop_address = 'Batangas City';
@@ -20,11 +21,20 @@ class ShopAccountSeeder extends Seeder
         $seed_shop->email_address = 'concept@default.com';
         $seed_shop->save();
 
-        DB::table('users')->insert([
-            'username' => 'conceptstore',
-            'password' => Hash::make('password123'),
-            'user_type' => '1',
-            'profile_id' => $seed_shop->id
-        ]);
+        // get created id for reference
+        $seed_shop_id = $seed_shop->id;
+
+        // save user account
+        $seed_account = new App\User;
+        $seed_account->username = 'conceptstore';
+        $seed_account->password = Hash::make('password123');
+        $seed_account->user_type = '1';
+        $seed_account->profile_id = $seed_shop_id;
+        $seed_account->save();
+
+        // save created id of user account to shop profiles
+        $seed_shop = App\ShopProfile::find($seed_shop_id);
+        $seed_shop->user_id = $seed_account->id;
+        $seed_shop->save();
     }
 }
