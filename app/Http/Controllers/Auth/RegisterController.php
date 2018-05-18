@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\ShopProfile;
+use App\ShopProfile as NewShopProfile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -67,7 +67,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $new_shop = new App\ShopProfile;
+        $new_shop = new NewShopProfile;
         $new_shop->shop_name = $data['shop_name'];
         $new_shop->shop_address = $data['shop_address'];
         $new_shop->contact_number = $data['contact_number'];
